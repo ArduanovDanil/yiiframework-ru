@@ -128,6 +128,9 @@ make prod-up
 This builds the production image locally, applies `environments/prod` during image build, starts the app together with its own database and runs migrations.
 Access it at **http://localhost:8081** and stop it with `make prod-down`.
 
+Rollbar is optional for local production-like runs. To enable it, set `ROLLBAR_ACCESS_TOKEN` in `docker/prod/override.env`.
+If the token is not set, `make prod-up` prints a warning and starts with Rollbar disabled.
+
 Run `make help` to see all available commands.
 
 Optional installation steps
