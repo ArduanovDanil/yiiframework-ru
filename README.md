@@ -102,6 +102,34 @@ After that you can access project locally by URL: http://l.yiiframework.ru
 That's all. You just need to wait for completion!
 After that you can access project locally by URL: http://l.yiiframework.ru
 
+### Alternative installation (Docker)
+
+```bash
+make start
+```
+
+This single command starts the containers, installs dependencies, initializes configs and runs migrations.
+After that, use `make up` / `make down` to start and stop the environment.
+
+If the environment is already running and you only need to prepare the application, use:
+
+```bash
+make bootstrap
+```
+
+Access the site at **http://localhost:8080**
+
+Production-like docker environment is available separately:
+
+```bash
+make prod-up
+```
+
+This builds the production image locally, applies `environments/prod` during image build, starts the app together with its own database and runs migrations.
+Access it at **http://localhost:8081** and stop it with `make prod-down`.
+
+Run `make help` to see all available commands.
+
 Optional installation steps
 ---------------------------
 
