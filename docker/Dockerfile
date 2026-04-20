@@ -40,7 +40,9 @@ RUN git config --system --add safe.directory /app
 RUN \
     groupadd --gid ${GROUP_ID} ${GROUP_NAME}; \
     useradd --gid ${GROUP_ID} --uid ${USER_ID} ${USER_NAME}; \
+    # Add additional capability to bind to port 80 and 443
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
+    # Give write access to /data/caddy and /config/caddy
     chown -R ${USER_NAME}:${GROUP_NAME} /data/caddy && chown -R ${USER_NAME}:${GROUP_NAME} /config/caddy
 USER ${USER_NAME}
 
