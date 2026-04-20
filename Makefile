@@ -37,7 +37,7 @@ endif
 
 ifeq ($(PRIMARY_GOAL),up)
 up: ## Up the dev environment.
-	$(DOCKER_COMPOSE_DEV) up -d --remove-orphans
+	$(DOCKER_COMPOSE_DEV) up -d --wait --remove-orphans
 endif
 
 ifeq ($(PRIMARY_GOAL),down)
@@ -69,7 +69,7 @@ ifeq ($(PRIMARY_GOAL),bootstrap)
 bootstrap: ## Bootstrap app (install + init + migrate).
 	$(DOCKER_RUN_DEV_APP) composer install --no-interaction
 	$(DOCKER_RUN_DEV_APP) sh -c "cd vendor && ln -sf bower-asset bower 2>/dev/null || true"
-	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/rbac /app/runtime /app/www/assets && chown -R $(UID):$(GID) /app/rbac /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/rbac /app/runtime /app/www/assets"
+	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/runtime/rbac /app/runtime /app/www/assets && chown -R $(UID):$(GID) /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/runtime /app/www/assets"
 	$(DOCKER_RUN_DEV_APP) php ./init --env=Development --overwrite=No
 	$(DOCKER_RUN_DEV_APP) ./yii migrate --interactive=0
 .PHONY: bootstrap
@@ -77,7 +77,7 @@ endif
 
 ifeq ($(PRIMARY_GOAL),start)
 start: ## Start dev environment and bootstrap app.
-	$(DOCKER_COMPOSE_DEV) up -d --remove-orphans
+	$(DOCKER_COMPOSE_DEV) up -d --wait --remove-orphans
 	$(MAKE) bootstrap
 .PHONY: start
 endif
@@ -111,7 +111,7 @@ endif
 
 ifeq ($(PRIMARY_GOAL),migrate)
 migrate: ## Run migrations.
-	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/rbac /app/runtime /app/www/assets && chown -R $(UID):$(GID) /app/rbac /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/rbac /app/runtime /app/www/assets"
+	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/runtime/rbac /app/runtime /app/www/assets && chown -R $(UID):$(GID) /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/runtime /app/www/assets"
 	$(DOCKER_RUN_DEV_APP) ./yii migrate $(CLI_ARGS)
 .PHONY: migrate
 endif
@@ -123,7 +123,7 @@ endif
 ifeq ($(PRIMARY_GOAL),prod-up)
 prod-up: ## Up the production-like environment.
 	@if [ -z "$$ROLLBAR_ACCESS_TOKEN" ]; then echo "Warning: ROLLBAR_ACCESS_TOKEN is not set. Rollbar will be disabled for this production-like run."; fi
-	$(DOCKER_COMPOSE_PROD) up -d --build --remove-orphans
+	$(DOCKER_COMPOSE_PROD) up -d --build --wait --remove-orphans
 	$(DOCKER_COMPOSE_PROD) exec app ./yii migrate --interactive=0
 endif
 
@@ -173,6 +173,7 @@ endif
 # Help
 #
 
+ifeq ($(PRIMARY_GOAL),help)
 help: ## Show this help.
 	@echo "Usage: make [target]"
 	@echo ""
@@ -206,3 +207,4 @@ help: ## Show this help.
 	@echo ""
 	@echo "Help:"
 	@echo "  help         Show this help"
+endif

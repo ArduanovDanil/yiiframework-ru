@@ -42,8 +42,8 @@ yii migrate
 
 ### 4. Setup webserver
 
-Point your werbserver root to `web` directory.
-There's [nginx config you can check](https://github.com/samdark/yiiframework-ru/tree/master/server/nginx).
+Point your webserver document root to the `www` directory.
+For containerized local development, prefer the FrankenPHP-based Docker setup described below.
 
 Alternative installation (Vagrant)
 ----------------------------------
@@ -108,7 +108,7 @@ After that you can access project locally by URL: http://l.yiiframework.ru
 make start
 ```
 
-This single command starts the containers, installs dependencies, initializes configs and runs migrations.
+This single command starts the FrankenPHP-based containers, installs dependencies, initializes configs and runs migrations.
 After that, use `make up` / `make down` to start and stop the environment.
 
 If the environment is already running and you only need to prepare the application, use:

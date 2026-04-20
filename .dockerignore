@@ -24,6 +24,7 @@
 !/vendor
 !/autoload.php
 !/environments
+!/docker
 !/init
 !/yii
 !/composer.json
