@@ -122,7 +122,7 @@ endif
 
 ifeq ($(PRIMARY_GOAL),prod-up)
 prod-up: ## Up the production-like environment.
-	@if [ -z "$$ROLLBAR_ACCESS_TOKEN" ]; then echo "Warning: ROLLBAR_ACCESS_TOKEN is not set. Rollbar will be disabled for this production-like run."; fi
+	@if [ ! -f docker/prod/override.env ] || ! grep -Eq '^ROLLBAR_ACCESS_TOKEN=.+$$' docker/prod/override.env; then echo "Warning: ROLLBAR_ACCESS_TOKEN is not set in docker/prod/override.env. Rollbar will be disabled for this production-like run."; fi
 	$(DOCKER_COMPOSE_PROD) up -d --build --wait --remove-orphans
 	$(DOCKER_COMPOSE_PROD) exec app ./yii migrate --interactive=0
 endif

@@ -8,8 +8,8 @@ Source code for new version of [yiiframework.ru](http://yiiframework.ru/).
 Overview
 --------
 
-Project includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+Project includes a web application and a console application sharing the same
+codebase and configuration directory.
 
 Installation
 ------------
@@ -19,10 +19,9 @@ Installation
 If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
 at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 
-You can then install this application template using the following command:
+Install dependencies with Composer:
 
 ```
-composer global require "fxp/composer-asset-plugin"
 composer install
 ```
 
@@ -53,7 +52,7 @@ Alternative installation (Vagrant)
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
 3. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
-3. Prepare project:
+4. Prepare project:
    
    ```bash
    git clone https://github.com/samdark/yiiframework-ru.git
@@ -61,14 +60,14 @@ Alternative installation (Vagrant)
    cp vagrant-local.example.yml vagrant-local.yml
    ```
    
-4. Place your GitHub personal API token to `vagrant-local.yml`
-5. Change directory to project root:
+5. Place your GitHub personal API token to `vagrant-local.yml`
+6. Change directory to project root:
 
    ```bash
    cd yiiframework-ru
    ```
 
-5. Run command:
+7. Run command:
 
    ```bash
    vagrant up
@@ -128,15 +127,15 @@ make prod-up
 This builds the production image locally, applies `environments/prod` during image build, starts the app together with its own database and runs migrations.
 Access it at **http://localhost:8081** and stop it with `make prod-down`.
 
-Rollbar is optional for local production-like runs. To enable it, set `ROLLBAR_ACCESS_TOKEN` in `docker/prod/override.env`.
-If the token is not set, `make prod-up` prints a warning and starts with Rollbar disabled.
+Rollbar is optional for local production-like runs. To enable it, create `docker/prod/override.env` from `docker/prod/override.env.example` and set `ROLLBAR_ACCESS_TOKEN` there.
+If the file is missing or the token is empty, `make prod-up` prints a warning and starts with Rollbar disabled.
 
 Run `make help` to see all available commands.
 
 Optional installation steps
 ---------------------------
 
-### 1. Configure github application
+### 1. Configure GitHub application
 
 Create new GitHub OAuth application: https://github.com/settings/applications/new - authorization callback URL must lead to local site domain.
 Copy `/config/system/authclients.php` to `/config/authclients.php`. Specify your application settings there.
