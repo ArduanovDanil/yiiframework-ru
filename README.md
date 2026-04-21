@@ -104,7 +104,7 @@ After that you can access project locally by URL: http://l.yiiframework.ru
 ### Alternative installation (Docker)
 
 ```bash
-make start
+make setup
 ```
 
 This single command starts the FrankenPHP-based containers, installs dependencies, initializes configs and runs migrations.

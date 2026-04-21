@@ -75,11 +75,11 @@ bootstrap: ## Bootstrap app (install + init + migrate).
 .PHONY: bootstrap
 endif
 
-ifeq ($(PRIMARY_GOAL),start)
-start: ## Start dev environment and bootstrap app.
+ifeq ($(PRIMARY_GOAL),setup)
+setup: ## Setup dev environment and bootstrap app.
 	$(DOCKER_COMPOSE_DEV) up -d --wait --remove-orphans
 	$(MAKE) bootstrap
-.PHONY: start
+.PHONY: setup
 endif
 
 #
@@ -186,7 +186,7 @@ help: ## Show this help.
 	@echo "  clear        Remove development docker containers and volumes"
 	@echo "  shell        Get into container shell"
 	@echo "  bootstrap    Bootstrap app (install + init + migrate)"
-	@echo "  start        Start dev environment and bootstrap app"
+	@echo "  setup        Setup dev environment and bootstrap app"
 	@echo ""
 	@echo "Tools:"
 	@echo "  yii          Execute Yii command (pass args after target)"
