@@ -69,7 +69,7 @@ ifeq ($(PRIMARY_GOAL),bootstrap)
 bootstrap: ## Bootstrap app (install + init + migrate).
 	$(DOCKER_RUN_DEV_APP) composer install --no-interaction
 	$(DOCKER_RUN_DEV_APP) sh -c "cd vendor && ln -sf bower-asset bower 2>/dev/null || true"
-	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/runtime/rbac /app/runtime /app/www/assets && chown -R $(UID):$(GID) /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/runtime /app/www/assets"
+	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/runtime/rbac /app/runtime /app/www/assets && rm -f /app/runtime/rbac/items.php /app/runtime/rbac/assignments.php /app/runtime/rbac/rules.php && chown -R $(UID):$(GID) /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/runtime /app/www/assets"
 	$(DOCKER_RUN_DEV_APP) php ./init --env=Development --overwrite=No
 	$(DOCKER_RUN_DEV_APP) ./yii migrate --interactive=0
 .PHONY: bootstrap
@@ -111,7 +111,7 @@ endif
 
 ifeq ($(PRIMARY_GOAL),migrate)
 migrate: ## Run migrations.
-	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/runtime/rbac /app/runtime /app/www/assets && chown -R $(UID):$(GID) /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/runtime /app/www/assets"
+	$(DOCKER_RUN_DEV_ROOT) sh -lc "mkdir -p /app/runtime/rbac /app/runtime /app/www/assets && rm -f /app/runtime/rbac/items.php /app/runtime/rbac/assignments.php /app/runtime/rbac/rules.php && chown -R $(UID):$(GID) /app/runtime /app/www/assets && chmod -R u+rwX,g+rwX /app/runtime /app/www/assets"
 	$(DOCKER_RUN_DEV_APP) ./yii migrate $(CLI_ARGS)
 .PHONY: migrate
 endif
