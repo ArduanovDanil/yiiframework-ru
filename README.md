@@ -110,6 +110,12 @@ make setup
 This single command starts the FrankenPHP-based containers, installs dependencies, initializes configs and runs migrations.
 After that, use `make up` / `make down` to start and stop the environment.
 
+To open the running app in your default browser:
+
+```bash
+make open
+```
+
 If the environment is already running and you only need to prepare the application, use:
 
 ```bash

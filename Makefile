@@ -37,7 +37,12 @@ endif
 
 ifeq ($(PRIMARY_GOAL),up)
 up: ## Up the dev environment.
-	$(DOCKER_COMPOSE_DEV) up -d --wait --remove-orphans
+	@DOCKER_COMPOSE_DEV='$(DOCKER_COMPOSE_DEV)' ./docker/dev/up.sh
+endif
+
+ifeq ($(PRIMARY_GOAL),open)
+open: ## Open the running app in the default browser.
+	@DOCKER_COMPOSE_DEV='$(DOCKER_COMPOSE_DEV)' ./docker/dev/open.sh
 endif
 
 ifeq ($(PRIMARY_GOAL),down)
@@ -180,6 +185,7 @@ help: ## Show this help.
 	@echo "Development:"
 	@echo "  build        Build docker images"
 	@echo "  up           Up the dev environment"
+	@echo "  open         Open the running app in browser"
 	@echo "  down         Down the dev environment"
 	@echo "  stop         Stop the dev environment"
 	@echo "  restart      Restart the dev environment"
